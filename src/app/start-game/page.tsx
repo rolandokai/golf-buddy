@@ -224,11 +224,22 @@ export default function StartGamePage() {
                 </>
             )}
 
+            <br/>
+
             <button
                 onClick={handleStartGame}
                 className="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
             >
                 Start Game
+            </button>
+
+            <br/><br/><br/>
+
+            <button
+                onClick={() => router.push("/")}
+                className="bg-gray-200 px-3 py-1 rounded hover:bg-gray-300 mt-4"
+            >
+                Back to Home
             </button>
         </main>
     );
