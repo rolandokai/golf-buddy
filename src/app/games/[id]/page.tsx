@@ -112,6 +112,23 @@ export default function GamePage() {
     };
 
     /**
+     * Handle incrementing or decrementing a score by 1
+     */
+    const handleScoreAdjustment = (
+        holeIndex: number,
+        playerIndex: number,
+        adjustment: number
+    ) => {
+        if (!course) return;
+
+        const currentValue = scores[holeIndex]?.[playerIndex] || "0";
+        const currentNumeric = parseInt(currentValue, 10) || 0;
+        const newValue = currentNumeric + adjustment;
+        
+        handleScoreChange(holeIndex, playerIndex, newValue.toString());
+    };
+
+    /**
      * The same pairwise logic for strokesGiven + raw net + birdie/eagle multiplier,
      * except we only consider raw net for determining birdie/eagle.
      */
@@ -264,14 +281,28 @@ export default function GamePage() {
                                 {game.players.map((_, pIdx) => (
                                     <td key={pIdx} className="border p-2">
                                         <div className="flex flex-col items-center">
-                                            <input
-                                                type="number"
-                                                className="border rounded p-1 w-16 text-center"
-                                                value={scores[holeIndex]?.[pIdx] || ""}
-                                                onChange={(e) =>
-                                                    handleScoreChange(holeIndex, pIdx, e.target.value)
-                                                }
-                                            />
+                                            <div className="flex items-center">
+                                                <button
+                                                    onClick={() => handleScoreAdjustment(holeIndex, pIdx, -1)}
+                                                    className="bg-gray-200 text-gray-800 px-2 py-1 rounded-l hover:bg-gray-300"
+                                                >
+                                                    -
+                                                </button>
+                                                <input
+                                                    type="number"
+                                                    className="border rounded p-1 w-16 text-center"
+                                                    value={scores[holeIndex]?.[pIdx] || ""}
+                                                    onChange={(e) =>
+                                                        handleScoreChange(holeIndex, pIdx, e.target.value)
+                                                    }
+                                                />
+                                                <button
+                                                    onClick={() => handleScoreAdjustment(holeIndex, pIdx, 1)}
+                                                    className="bg-gray-200 text-gray-800 px-2 py-1 rounded-r hover:bg-gray-300"
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
                                             <span className="text-xs text-gray-500">
                           Pts: {holePts[pIdx]}
                         </span>
